@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
             Collectible collectible = other.GetComponent<Collectible>();
             if (collectible)
             {
-               GameManager.Instance.CollectiblePickedUp(100)
+               GameManager.Instance.CollectiblePickedUp(100);
                 Destroy(other.gameObject);
             }
         }
