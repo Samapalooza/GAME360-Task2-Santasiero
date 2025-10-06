@@ -12,8 +12,8 @@ public class PlayerController : MonoBehaviour
     private float nextFireTime = 0f;
 
     [Header("Audio")]
-    public AudioClip shootSound;
-    public AudioClip CoinSound;
+    public AudioClip Shoot;
+    public AudioClip Coinmp3;
     private AudioSource audioSource;
 
     private Rigidbody2D rb;
@@ -68,6 +68,7 @@ public class PlayerController : MonoBehaviour
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
         }
 
+        audioSource.PlayOneShot(Shoot);
         // Play shoot sound effect
        
     }
@@ -87,7 +88,10 @@ public class PlayerController : MonoBehaviour
             if (collectible)
             {
                GameManager.Instance.CollectiblePickedUp(100);
+               audioSource.PlayOneShot(Coinmp3);
                 Destroy(other.gameObject);
+
+
             }
         }
     }
