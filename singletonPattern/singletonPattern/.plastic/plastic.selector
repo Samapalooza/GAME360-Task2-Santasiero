@@ -1,0 +1,4 @@
+repository "singletonPattern/singletonPattern@2475031066772@cloud"
+  path "/"
+    br "/main"
+    co "/main"
