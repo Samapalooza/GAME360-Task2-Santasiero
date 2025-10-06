@@ -58,8 +58,8 @@ public class Enemy : MonoBehaviour
     {
         // This is where Singleton shines!
         // Any enemy can easily notify the GameManager
-
-        Destroy(gameObject);
+           GameManager.Instance.EnemyKilled(); // update the score of the player
+            Destroy(gameObject); // the enemy gets destroyed
     }
 
     private void OnDrawGizmosSelected()
