@@ -74,3 +74,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 /singletonPattern/singletonPattern/Library
+singletonPattern/singletonPattern/Temp/UnityLockfile
+singletonPattern/singletonPattern/Temp/FSTimeGet-89252d1db05acee4db8e5927d1ffa3f9
+singletonPattern/singletonPattern/Temp/FSTimeGet-638e04ba812b8b04a948b4ced8e85d4f
+singletonPattern/singletonPattern/Temp/FSTimeGet-186580da8a8edf444a9ab046e6b8030c
