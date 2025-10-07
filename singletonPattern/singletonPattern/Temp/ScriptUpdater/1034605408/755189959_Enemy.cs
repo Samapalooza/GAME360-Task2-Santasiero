@@ -26,18 +26,15 @@ public class Enemy : MonoBehaviour
         ChasePlayer();
     }
 
-    private float GetSpeed()
-    {
-        int score = GameManager.Instance.score;
-        if (score > 2000) return 5f;
-        if (score > 1000) return 4f;
-        return 2f;
-    }
     private void ChasePlayer()
     {
-        if (player == null) return;
-               
-            float speed = GetSpeed();
+        if (player)
+        {
+            if (GameManager.Instance.score > 1000)
+                moveSpeed = 4f;
+            if (GameManager.Instance.score > 2000)
+                moveSpeed = 5f;
+
             float distance = Vector2.Distance(transform.position, player.position);
 
             if (distance <= detectionRange)
@@ -49,6 +46,7 @@ public class Enemy : MonoBehaviour
             {
                 rb.linearVelocity = Vector2.zero;
             }
+        }
     }
 
     public void TakeDamage(int damage)
