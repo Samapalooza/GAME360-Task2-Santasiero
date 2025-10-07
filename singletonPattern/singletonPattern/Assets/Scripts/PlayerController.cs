@@ -63,6 +63,12 @@ public class PlayerController : MonoBehaviour
 
     private void FireBullet()
     {
+        if (GameManager.Instance.score > 499 && GameManager.Instance.score < 1000)
+            fireRate = 0.3f;
+        if(GameManager.Instance.score > 1000)
+            fireRate = 0.1f;
+
+
         if (bulletPrefab && firePoint)
         {
             Instantiate(bulletPrefab, firePoint.position, firePoint.rotation);
