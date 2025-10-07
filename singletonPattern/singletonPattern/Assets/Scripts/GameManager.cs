@@ -1,7 +1,7 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; //Namespace for textmeshpro
+using TMPro; //Namesapce for textmeshpro
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
@@ -10,7 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
 
     [Header("Game Stats")]
-    public int score = 0;
+    public int score = 0;//score is calculated
     public int lives = 3;
     public int enemiesKilled = 0;
 
@@ -18,7 +18,8 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text livesText;
     public Text enemiesKilledText;
-    public GameObject gameEndPanel;
+    public GameObject gameOverPanel;
+    //public TMP_Text scoreText;
 
     private void Awake()
     {
@@ -34,25 +35,50 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    private void Start()
+    private void OnEnable()
     {
-        UpdateUI();
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
- private void HideGameOverPanel()
- {
-     if (gameEndPanel)
-     {
-         gameEndPanel.SetActive(false);
-     }
- }
+    private void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        RefreshUIReferences();
+        UpdateUI();
+
+    }
+
+    private void Start()
+    {
+        //RefreshUIReferences();
+        //UpdateUI();
+
+    }
+
+    private void RefreshUIReferences()
+    {
+        
+       scoreText = GameObject.Find("Score")?.GetComponent<Text>();
+       livesText = GameObject.Find("Lives")?.GetComponent<Text>();
+       enemiesKilledText = GameObject.Find("EnemiesKilled")?.GetComponent<Text>();
+       gameOverPanel = GameObject.Find("GameEndPanel");
+        if (gameOverPanel != null)
+        {
+            gameOverPanel.SetActive(false);
+        }
+
+    }
     public void AddScore(int points)
     {
         score += points;
         Debug.Log($"Score increased by {points}. Total: {score}");
         UpdateUI();
-     }
+    }
+
 
     public void LoseLife()
     {
@@ -73,6 +99,7 @@ public class GameManager : MonoBehaviour
         Debug.Log($"Enemy killed! Total enemies defeated: {enemiesKilled}");
     }
 
+
     public void CollectiblePickedUp(int value)
     {
         AddScore(value);
@@ -89,15 +116,14 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("GAME OVER!");
-        if (gameEndPanel) gameEndPanel.SetActive(true);
+        if (gameOverPanel) gameOverPanel.SetActive(true);
         Time.timeScale = 0f; // Pause the game
     }
 
     public void reloadGame()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Scene2 Singleton");
-        gameEndPanel.SetActive(false);
+        //SceneManager.LoadScene("Delete");
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 
     public void quitGame()
@@ -105,13 +131,41 @@ public class GameManager : MonoBehaviour
         Application.Quit();
     }
 
+
     public void RestartGame()
     {
+        Time.timeScale = 1f;
+
+        // Reset all game state
         score = 0;
         lives = 3;
         enemiesKilled = 0;
-        Time.timeScale = 1f;
-        if (gameEndPanel) gameEndPanel.SetActive(false);
-        UpdateUI();
+
+         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+       
+    }
+
+    private void DestroyAllGameObjects()
+    {
+        // Destroy all enemies
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject enemy in enemies)
+        {
+            Destroy(enemy);
+        }
+
+        // Destroy all bullets
+        GameObject[] bullets = GameObject.FindGameObjectsWithTag("Bullet");
+        foreach (GameObject bullet in bullets)
+        {
+            Destroy(bullet);
+        }
+
+        // Destroy all collectibles
+        GameObject[] collectibles = GameObject.FindGameObjectsWithTag("Collectible");
+        foreach (GameObject collectible in collectibles)
+        {
+            Destroy(collectible);
+        }
     }
 }
