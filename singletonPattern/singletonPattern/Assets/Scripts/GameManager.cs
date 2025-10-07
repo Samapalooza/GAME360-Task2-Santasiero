@@ -1,8 +1,6 @@
 
 using UnityEngine;
 using UnityEngine.UI;
-using TMPro; //Namespace for textmeshpro
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -18,7 +16,7 @@ public class GameManager : MonoBehaviour
     public Text scoreText;
     public Text livesText;
     public Text enemiesKilledText;
-    public GameObject gameEndPanel;
+    public GameObject gameOverPanel;
 
     private void Awake()
     {
@@ -38,14 +36,6 @@ public class GameManager : MonoBehaviour
     {
         UpdateUI();
     }
-
- private void HideGameOverPanel()
- {
-     if (gameEndPanel)
-     {
-         gameEndPanel.SetActive(false);
-     }
- }
 
     public void AddScore(int points)
     {
@@ -89,20 +79,8 @@ public class GameManager : MonoBehaviour
     private void GameOver()
     {
         Debug.Log("GAME OVER!");
-        if (gameEndPanel) gameEndPanel.SetActive(true);
+        if (gameOverPanel) gameOverPanel.SetActive(true);
         Time.timeScale = 0f; // Pause the game
-    }
-
-    public void reloadGame()
-    {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene("Scene2 Singleton");
-        gameEndPanel.SetActive(false);
-    }
-
-    public void quitGame()
-    {
-        Application.Quit();
     }
 
     public void RestartGame()
@@ -111,7 +89,7 @@ public class GameManager : MonoBehaviour
         lives = 3;
         enemiesKilled = 0;
         Time.timeScale = 1f;
-        if (gameEndPanel) gameEndPanel.SetActive(false);
+        if (gameOverPanel) gameOverPanel.SetActive(false);
         UpdateUI();
     }
 }
